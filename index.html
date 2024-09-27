@@ -3,48 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>Redirect</title>
     <script>
-        const SHEET_ID = '1dWUL3W7p5Wff_cvXQwd-hD3-kP4A2Y4glcK72XoIkfo'; // Google Sheet ID
-        const API_KEY = 'AIzaSyCXmMCqNqYHkE7ttfsktdAUdKAgWnNVo6E'; // Google Sheets API key
+        console.log("Starting the redirection script...");
 
         // Extract the short code from the URL
         let path = window.location.pathname.split('/').pop();
-        
         console.log("Extracted short code:", path);
 
-        // Define the function to fetch the data from Google Sheets
-        async function fetchLinkFromSheet() {
-            const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/url!A:B?key=${API_KEY}`;
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
+        // Simulated data for short codes and original links
+        const mockData = {
+            "go": "https://google.com",
+            "wiki": "https://en.wikipedia.org/wiki/Main_Page"
+        };
 
-                // Loop through the sheet data to find a matching short code
-                let found = false;
-                data.values.forEach(row => {
-                    if (row[0] === shortCode) {
-                        window.location.href = row[1]; // Redirect to the original URL
-                        console.log('row1',row[1])
-                        found = true;
-                    }
-                });
-
-                if (!found) {
-                    document.body.innerHTML = "<p>Shortened link not found.</p>";
-                }
-
-            } catch (error) {
-                console.error("Error fetching link: ", error);
-                document.body.innerHTML = "<p>Error occurred while fetching the link.</p>";
-            }
+        if (mockData[path]) {
+            console.log("Redirecting to:", mockData[path]);
+            window.location.href = mockData[path]; // Redirect to the original link
+        } else {
+            console.warn("Short code not found:", path);
+            document.body.innerHTML = `<p>Shortened link not found.</p>`;
         }
-
-        // Call the function to perform the redirection
-        fetchLinkFromSheet();
     </script>
 </head>
 <body>
     <h1>Redirecting...</h1>
+    <p>If you are not redirected, please wait or try again.</p>
 </body>
 </html>

@@ -6,13 +6,8 @@ window.onload = async function () {
 
   // Extract the short code from the URL
   const hashShortCode = window.location.hash.substring(1);
-  const urlParams = new URLSearchParams(window.location.search);
-  const queryShortCode = urlParams.get('go');
 
-  // Use the first available short code
-  const shortCode = hashShortCode || queryShortCode;
-
-  if (shortCode) {
+  if (hashShortCode) {
       // Fetch the data from Google Sheets
       const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/url!A:B?key=${API_KEY}`;
       console.log('Fetching data from:', url);
@@ -23,7 +18,7 @@ window.onload = async function () {
           // Loop through the sheet data to find a matching short code
           let found = false;
           data.values.forEach(row => {
-              if (row[0] === shortCode) {
+              if (row[0] === hashShortCode) {
                   window.location.href = row[1]; // Redirect to the original URL
                   found = true;
               }
